@@ -9,37 +9,38 @@ class Results extends Component {
   };
 
   componentDidMount = () => {
-    API.getEmployee().then((res) => {
-      console.log(res.data.results);
-      let employee = res.data.results;
-      this.setState({ employee });
-    });
-  };
-
-  searchEmployee = (e) => {
-    const search = this.setState({ search: e.target.value });
-    console.log(search);
-    // return search;
-  };
-
-  searchResults = (e) => {
-    e.preventDefault();
+    API.search()
+      .then((res) => {
+        this.setState({
+          filtered: res.data.results.map((emp, id) => ({
+            // console.log(emp);
+            name: emp.name,
+            picture: emp.picture.large,
+            email: emp.email,
+            phone: emp.phone,
+            key: id,
+          })),
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
   render = () => {
     return (
-      <div>
-        <input
-          type="text"
-          value={this.state.search}
-          placeholder="Find First Name"
-          onChange={this.searchEmployee}
-        ></input>
-        <button onClick={this.searchResults}> Search Employee</button>
+      <div className="container">
+        <form>
+          <input
+            type="text"
+            value={this.state.search}
+            placeholder="Find First Name"
+            onChange={this.searchEmployee}
+          ></input>
+          <button onClick={this.searchResults}> Search Employee</button>
+        </form>
 
         <thead>
           <tr>
-            <th scope="col">Profile Picture</th>
+            <th scope="col">Profile Picture: {this.employee}</th>
             <th scope="col">First/Last Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone #</th>
@@ -47,7 +48,7 @@ class Results extends Component {
         </thead>
         <tbody>
           <tr>
-            {this.state.employee.map(({ picture, name, email, phone }) => {
+            {this.state.filtered.map(({ picture, name, email, phone }) => {
               return (
                 <tr>
                   <th scope="col">{picture}</th>
