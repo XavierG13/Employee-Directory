@@ -15,9 +15,9 @@ class Results extends Component {
           filtered: res.data.results.map((emp, id) => ({
             // console.log(emp);
             name: emp.name,
-            picture: emp.picture.large,
             email: emp.email,
             phone: emp.phone,
+            picture: emp.picture.large,
             key: id,
           })),
         });
@@ -25,43 +25,39 @@ class Results extends Component {
       .catch((err) => console.log(err));
   };
 
-  render = () => {
-    return (
-      <div className="container">
-        <form>
-          <input
-            type="text"
-            value={this.state.search}
-            placeholder="Find First Name"
-            onChange={this.searchEmployee}
-          ></input>
-          <button onClick={this.searchResults}> Search Employee</button>
-        </form>
+  filteredResults = (searched) => {
+    // console.log(searched);
+    var results = this.state.result.filter((emp) => emp.name === searched);
 
-        <thead>
-          <tr>
-            <th scope="col">Profile Picture: {this.employee}</th>
-            <th scope="col">First/Last Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone #</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {this.state.filtered.map(({ picture, name, email, phone }) => {
-              return (
-                <tr>
-                  <th scope="col">{picture}</th>
-                  <th scope="col">{name}</th>
-                  <th scope="col">{email}</th>
-                  <th scope="col">{phone}</th>
-                </tr>
-              );
-            })}
-          </tr>
-        </tbody>
-      </div>
-    );
+    this.setState({
+      filtered: results,
+    });
+  };
+
+  // will handle the search when form is submitted and will use the value for the name
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    const name = event.target.name;
+
+    this.filteredResults(value);
+    this.setState({
+      [name]: value,
+    });
+    this.filteredResults(value);
+    this.filteredResults(this.state.search);
+  };
+
+  handleInputChange = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    const name = event.target.name;
+    this.setState({
+      [name]: value,
+    });
+  };
+  render = () => {
+    return <div></div>;
   };
 }
 
