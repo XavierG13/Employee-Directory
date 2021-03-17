@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import API from "../utils/API";
-
+import Header from "./Header";
 class Results extends Component {
   state = {
     search: "",
@@ -27,7 +27,7 @@ class Results extends Component {
 
   filteredResults = (searched) => {
     // console.log(searched);
-    var results = this.state.result.filter((emp) => emp.name === searched);
+    var results = this.state.filtered.filter((emp) => emp.name === searched);
 
     this.setState({
       filtered: results,
@@ -56,8 +56,34 @@ class Results extends Component {
       [name]: value,
     });
   };
+
   render = () => {
-    return <div></div>;
+    return (
+      <div className="container">
+        <Header />
+        <div className="row">
+          <form>
+            <div className="form-group">
+              <input
+                onChange={this.handleInputChange}
+                value={this.search}
+                name="search"
+                type="text"
+                className="form-control"
+                placeholder="Search for an Employee"
+                id="search"
+              />
+              <button
+                onClick={this.handleSubmit}
+                className="btn btn-primary mt-3"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
   };
 }
 
