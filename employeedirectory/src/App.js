@@ -1,14 +1,12 @@
 // import logo from "./logo.svg";
 import "./App.css";
 
-import Header from "./components/Header";
-import Container from "./components/Container";
+import EmployeeContainer from "./components/EmployeeContainer";
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Container />
+      <EmployeeContainer />
     </div>
   );
 }
